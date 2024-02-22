@@ -4,12 +4,23 @@ const mongoose = require("mongoose");
 
 /* CONNECTION HELPER */
 
-mongoose.connect("mongodb://localhost/users_test"); // connect to our database
+before((done) => {
+  mongoose.connect("mongodb://localhost/users_test"); // connect to our database
 
-mongoose.connection
-  .once("open", () => {
-    console.log("Connected !");
-  })
-  .on("error", (error) => {
-    console.warn("Warning : ", error);
+  mongoose.connection
+    .once("open", () => {
+      done();
+    }) // not using fat arraw here because of the async nature ?
+    .on("error", (error) => {
+      console.warn("Warning : ", error);
+    });
+});
+
+// drop the collections before each test
+beforeEach((done) => {
+  mongoose.connection.collections.users.drop(() => {
+    // only excuted after the collection is dropped
+
+    done();
   });
+});
