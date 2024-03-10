@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const PostSchema = require("./post.schema");
 
 const Schema = mongoose.Schema; /* describe how I should I accept data */
 
@@ -11,7 +12,8 @@ const UserSchema = new Schema({
     },
     required: [true, "Name is required."],
   },
-  likes: Number,
+  followers: Number,
+  posts: [PostSchema], // {list / nested sub-documents}
 });
 
 // create a model that follows the schema
