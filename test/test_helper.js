@@ -1,11 +1,12 @@
 // anything related to testing setup should be here
+require("dotenv").config();
 
 const mongoose = require("mongoose");
 
 /* CONNECTION HELPER */
 
 before((done) => {
-  mongoose.connect("mongodb://localhost/users_test"); // connect to our database
+  mongoose.connect(process.env.MONGO_URL); // connect to our database
 
   mongoose.connection
     .once("open", () => {
@@ -18,8 +19,9 @@ before((done) => {
 
 // drop the collections before each test
 beforeEach((done) => {
-  mongoose.connection.collections.users.drop(() => {
+  mongoose.connection.collections.users.drop((err) => {
     // only excuted after the collection is dropped
+    if (err && err.message !== "ns not found") return done(err);
 
     done();
   });

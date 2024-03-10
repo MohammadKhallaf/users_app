@@ -12,11 +12,14 @@ describe("Creating records", () => {
      * check if it was saved correctly
      */
 
-    const john = new User({ name: "John" });
-    john.save().then(() => {
-      // check if it was saved correctly
-      assert(!john.isNew);
-      done();
-    });
+    const john = new User({ name: "John With 8 chars" });
+    john
+      .save()
+      .then(() => {
+        // check if it was saved correctly
+        assert(!john.isNew);
+        done();
+      })
+      .catch((error) => done(error)); // to detect the error thrown
   });
 });

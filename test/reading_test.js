@@ -5,13 +5,13 @@ describe("Reading users", () => {
   let joe; // to make available to all tests
   beforeEach((done) => {
     // insert a record into users collection with name of joe
-    joe = new User({ name: "Joe" });
+    joe = new User({ name: "JoeWithEightChars" });
 
     joe.save().then(() => done());
   });
 
   it("finds all users with name of joe", (done) => {
-    User.find({ name: "Joe" }).then((users) => {
+    User.find({ name: "JoeWithEightChars" }).then((users) => {
       assert(users[0]._id.toString() === joe._id.toString());
       done();
     });
@@ -19,7 +19,7 @@ describe("Reading users", () => {
 
   it("find a user with a particular id", (done) => {
     User.findOne({ _id: joe._id }).then((user) => {
-      assert(user.name === "Joe");
+      assert(user.name === "JoeWithEightChars");
       done();
     });
   });
