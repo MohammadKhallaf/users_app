@@ -13,10 +13,20 @@ const UserSchema = new Schema({
     required: [true, "Name is required."],
   },
   followers: Number,
+  // postCount: Number, //! calculated on the fly, VIRTUAL TYPE => not included in the schema
   posts: [PostSchema], // {list / nested sub-documents}
 });
 
 // create a model that follows the schema
+
+UserSchema.virtual("postCount") // expect a virtual property
+  .get(function () {
+    // using a function keyword not the arrow function (fat arrow) ==> we need to use "this" to refer to the current instance
+    //* this function should be excuted every time **the property** is accessed ( joe.postCount or joe.get('postCount') ) -- no function excution
+    //* and return a value for the virtual property
+    // return this; // returns the user model instance
+    return this.posts.length; // access to the current instance of the model
+  });
 
 /* assign schema to user model */
 // will create the model for us
