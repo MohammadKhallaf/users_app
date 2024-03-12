@@ -15,7 +15,7 @@ describe("Associations", () => {
       content: "Test ya man",
     });
     comment = new Comment({
-      content: "Good post ",
+      content: "Good post!",
     });
 
     // do the associations, with direct fashion
@@ -61,7 +61,10 @@ describe("Associations", () => {
         },
       })
       .then((user) => {
-        console.log(user);
+        assert(user.name === "JoeWithEightChars");
+        assert(user.blogPosts[0].title === "Joe is trying the test");
+        assert(user.blogPosts[0].comments[0].content === "Good post!");
+        assert(user.blogPosts[0].comments[0].user.name === "JoeWithEightChars");
         done();
       });
   });
