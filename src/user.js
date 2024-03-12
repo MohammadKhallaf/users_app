@@ -15,6 +15,12 @@ const UserSchema = new Schema({
   followers: Number,
   // postCount: Number, //! calculated on the fly, VIRTUAL TYPE => not included in the schema
   posts: [PostSchema], // {list / nested sub-documents}
+  blogPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "blogPost",
+    },
+  ],
 });
 
 // create a model that follows the schema
