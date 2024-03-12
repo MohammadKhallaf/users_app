@@ -19,10 +19,21 @@ before((done) => {
 
 // drop the collections before each test
 beforeEach((done) => {
-  mongoose.connection.collections.users.drop((err) => {
-    // only excuted after the collection is dropped
-    if (err && err.message !== "ns not found") return done(err);
+  // I need to do the same drop for all **collections** in the system
+  // mongoose.connection.collections.users.drop((err) => {
+  //   // only excuted after the collection is dropped
+  //   if (err && err.message !== "ns not found") return done(err);
 
-    done();
+  //   done();
+  // });
+
+  const { users, comments, blogPosts } = mongoose.connection.collections;
+  // we drop those collections sequentially
+  users.drop(() => {
+    comments.drop(() => {
+      blogPosts.drop(() => {
+        done();
+      });
+    });
   });
 });
