@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const assert = require("assert");
 const User = require("../src/user");
 const BlogPost = require("../src/blog-post");
+const Comment = require("../src/comment");
 
 describe("Associations", () => {
   let joe, comment, blogPost;
@@ -36,12 +37,28 @@ describe("Associations", () => {
       .catch((error) => done(error));
   });
 
-  it.only("save a relation between user and blogPost", (done) => {
+  it("save a relation between user and blogPost", (done) => {
     User.findOne({ name: "JoeWithEightChars" })
+      .populate("blogPosts")
       .then((user) => {
         console.log(user);
         done();
       })
       .catch((error) => done(error));
+  });
+
+  it("saves a full relation graph", (done) => {
+    User.findOne({ name: "JoeWithEightChars" })
+      .populate({
+        path: "blogPosts",
+        populate: {
+          path: "comments",
+          model: "comment", //the model we want to find the association
+        },
+      })
+      .then((user) => {
+        console.log(user);
+        done();
+      });
   });
 });
