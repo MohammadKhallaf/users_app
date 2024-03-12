@@ -27,13 +27,14 @@ beforeEach((done) => {
   //   done();
   // });
 
-  const { users, comments, blogPosts } = mongoose.connection.collections;
+  const { users, comments, blogposts } = mongoose.connection.collections;
   // we drop those collections sequentially
   users.drop(() => {
     comments.drop(() => {
-      blogPosts.drop(() => {
+      blogposts.drop(() => {
+        // blogPosts is not correct -> mongoose normalizing all collections' names to lowercase
         done();
       });
     });
-  });
+  }); //
 });
