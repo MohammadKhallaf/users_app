@@ -28,13 +28,25 @@ beforeEach((done) => {
   // });
 
   const { users, comments, blogposts } = mongoose.connection.collections;
+
   // we drop those collections sequentially
-  users.drop(() => {
-    comments.drop(() => {
-      blogposts.drop(() => {
-        // blogPosts is not correct -> mongoose normalizing all collections' names to lowercase
-        done();
-      });
+  const collectionKeys = Object.keys(mongoose.connection.collections);
+  const dropCollection = (index) => {
+    if (index === collectionKeys.length) {
+      done();
+      return;
+    }
+    const key = collectionKeys[index];
+    const collection = mongoose.connection.collections[key];
+    collection.drop((err) => {
+      if (err && err.message !== "ns not found") {
+        done(err);
+        return;
+      }
+      console.log(`Dropped collection: ${key}`);
+      dropCollection(index + 1);
     });
-  }); //
+  };
+
+  dropCollection(0);
 });
