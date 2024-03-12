@@ -30,7 +30,7 @@ UserSchema.virtual("postCount") // expect a virtual property
 
 /* assign schema to user model */
 // will create the model for us
-const User = mongoose.model("User", UserSchema); // PascalCase for class
+const User = mongoose.model("user", UserSchema); // PascalCase for class
 
 //expose the model to the rest of the app
 module.exports = User;

@@ -14,7 +14,7 @@ const BlogPostSchema = new Schema({
   comments: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Comment" /* reference to another model */,
+      ref: "comment" /* reference to another model */,
     },
   ], // arr of comments (refs)
   createdAt: {

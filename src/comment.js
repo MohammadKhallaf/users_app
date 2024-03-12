@@ -8,10 +8,10 @@ const CommentSchema = new Schema({
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user", // make sure that the name is the one used to assign the model
   },
 });
 
-const Comment = mongoose.model("Comment", CommentSchema);
+const Comment = mongoose.model("comment", CommentSchema);
 
 module.exports = Comment;
