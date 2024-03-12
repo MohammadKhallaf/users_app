@@ -41,7 +41,7 @@ describe("Associations", () => {
     User.findOne({ name: "JoeWithEightChars" })
       .populate("blogPosts")
       .then((user) => {
-        console.log(user);
+        assert(user.blogPosts[0].title === "Joe is trying the test");
         done();
       })
       .catch((error) => done(error));
@@ -52,8 +52,12 @@ describe("Associations", () => {
       .populate({
         path: "blogPosts",
         populate: {
-          path: "comments",
+          path: "comments", // the comments property
           model: "comment", //the model we want to find the association
+          populate: {
+            path: "user",
+            model: "user",
+          },
         },
       })
       .then((user) => {
