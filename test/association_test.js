@@ -3,6 +3,7 @@ const assert = require("assert");
 const User = require("../src/user");
 const BlogPost = require("../src/blog-post");
 const Comment = require("../src/comment");
+const MODELS = require("../src/constants");
 
 describe("Associations", () => {
   let joe, comment, blogPost;
@@ -53,10 +54,10 @@ describe("Associations", () => {
         path: "blogPosts",
         populate: {
           path: "comments", // the comments property
-          model: "comment", //the model we want to find the association
+          model: MODELS.COMMENT, //the model we want to find the association
           populate: {
             path: "user",
-            model: "user",
+            model: MODELS.USER,
           },
         },
       })

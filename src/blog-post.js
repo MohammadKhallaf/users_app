@@ -1,5 +1,6 @@
 // just not to loose the post schema in the course
 const mongoose = require("mongoose");
+const MODELS = require("./constants");
 
 const Schema = mongoose.Schema;
 
@@ -14,7 +15,7 @@ const BlogPostSchema = new Schema({
   comments: [
     {
       type: Schema.Types.ObjectId,
-      ref: "comment" /* reference to another model */,
+      ref: MODELS.COMMENT /* reference to another model */,
     },
   ], // arr of comments (refs)
   createdAt: {
@@ -23,6 +24,6 @@ const BlogPostSchema = new Schema({
   },
 });
 
-const BlogPost = mongoose.model("blogPost", BlogPostSchema); // PascalCase for class
+const BlogPost = mongoose.model(MODELS.BLOGPOST, BlogPostSchema); // PascalCase for class
 
 module.exports = BlogPost;
