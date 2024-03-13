@@ -35,11 +35,20 @@ UserSchema.virtual("postCount") // expect a virtual property
     return this.posts.length; // access to the current instance of the model
   });
 
-UserSchema.pre("remove", function () {
-  // this == joe
-  //  if I used the imported model of blogPost, we will have a cyclic imports
-  const BlogPost = mongoose.model(MODELS.BLOGPOST);
-});
+UserSchema.pre(
+  "deleteOne",
+  { document: true },
+  function (next /* callback of the middleware, to go to the next step */) {
+    // this ==> joe (instance of User)
+    //  if I used the imported model of blogPost, we will have a cyclic imports
+    const BlogPost = mongoose.model(MODELS.BLOGPOST);
+    BlogPost.deleteMany({
+      _id: {
+        $in: this.blogPosts, // blogPosts.each(()=>{...})  //! $in operator
+      },
+    }).then(() => next());
+  }
+);
 
 /* assign schema to user model */
 // will create the model for us
